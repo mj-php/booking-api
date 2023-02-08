@@ -1,8 +1,8 @@
 @extends('app')
-@section('title', 'Welcome')
+@section('title', 'Reservations')
 @section('content')
     <div class="row">
-        <div class="col-lg-6 col-md-12">Welcome to Booking App
+        <div class="col-lg-6 col-md-12">
         </div>
     </div>
 @endsection

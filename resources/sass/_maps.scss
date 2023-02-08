@@ -1,0 +1,14 @@
+$custom-color: (
+"light-blue": rgba(224, 233, 255, 1),
+"blue" : rgba(51, 102, 255, 1),
+"green": rgba(43, 183, 55, 1),
+"red": rgba(255, 70, 45, 1),
+"neutral": rgba(103, 108, 122, 1),
+"orange": rgba(234, 120, 0, 1),
+"light-orange": rgba(253, 240, 219, 1),
+"dark-gray": rgba(60, 63, 71, 1),
+"light-gray": rgba(223, 225, 230, 1),
+"main":rgba(249, 249, 250, 1)
+);
+
+$theme-colors: map-merge($theme-colors,$custom-color);

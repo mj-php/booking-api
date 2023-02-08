@@ -1,0 +1,197 @@
+// Body
+$body-bg: #f8fafc;
+
+// Typography
+$font-family-sans-serif: 'Roboto', sans-serif;
+$font-size-base: 0.9rem;
+$headings-line-height: 130%;
+
+$primary: rgba(0, 41, 122, 1);
+$secondary: rgba(51, 102, 255, 1);
+$bootstrap-primary: rgba(0, 41, 122, 1);
+$secondary: rgba(37, 78, 219, 1);
+$bootstrap-secondary: rgba(37, 78, 219, 1);
+$nav-pills-link-active-bg: rgba(37, 78, 219, 1);
+$input-focus-border-color: rgba(51, 102, 255, 1);
+$input-focus-box-shadow: none;
+$btn-close-focus-shadow: none;
+
+$tooltip-bg: $primary !default;
+$gray-100: rgba(236, 237, 240, 1);
+
+$box-shadow: 0 .5rem 1rem rgba($primary, .55);
+
+    //Font size
+$font-sizes: (
+  1: 12rem,
+  2: 10rem,
+  3: 7rem,
+  4: 5rem,
+  5: 3rem,
+  6: 2rem,
+  7: 1.5rem,
+  8: 1rem,
+  9: 0.75rem,
+  10: 0.65rem,
+  11: 0.5rem
+);
+
+body {
+    font-family: 'Roboto', sans-serif;
+}
+
+.fa-primary {
+    color: $primary;
+}
+
+$nav-tabs-link-active-color: rgba(37, 78, 219, 1);
+
+$h1-font-size: 50px;
+$h2-font-size: 48px;
+$h3-font-size: 34px;
+$h4-font-size: 24px;
+$h5-font-size: 20px;
+
+h1 {
+    @extend h1;
+    font-style: normal !important;
+    font-weight: 700 !important;
+    font-size: 50px !important;
+    line-height: 125% !important;
+}
+
+h2 {
+    @extend h2;
+    font-style: normal !important;
+    font-weight: 500 !important;
+    font-size: 48px !important;
+    line-height: 125% !important;
+}
+
+h2.swal2-title {
+    font-size: 1.25rem !important;
+}
+
+h3 {
+    @extend h3;
+    font-weight: 400 !important;
+    font-size: 34px !important;
+    line-height: 125% !important;
+}
+
+h4 {
+    @extend h4;
+    font-style: normal !important;
+    font-weight: 600 !important;
+    font-size: 24px !important;
+    line-height: 125% !important;
+}
+
+h5 {
+    @extend h5;
+    font-style: normal !important;
+    font-weight: 600 !important;
+    font-size: 20px !important;
+    line-height: 125% !important;
+}
+
+.subtitle-1 {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 130%;
+    letter-spacing: 0.0015em;
+}
+
+.subtitle-2 {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 130%;
+}
+
+.body-1 {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 150%;
+}
+
+.body-2 {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 150%;
+}
+
+.button-1 {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 150%;
+}
+
+.button-2 {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 150%;
+}
+
+.caption {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 150%;
+}
+
+.small-text {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 150%;
+}
+
+.menu-link {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 130%;
+    letter-spacing: 0.02em;
+}
+
+.app-name {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 130%;
+    letter-spacing: 0.0015em;
+}
+
+.user-name {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 130%;
+    opacity: 0.8;
+}
+
+.menu-link {
+    i {
+        margin: 0 9px;
+    }
+}
+
+.dropdown-toggle::after {
+    display: none !important;
+}
+
+.menu-element-title {
+    left: 37px;
+    position: absolute;
+    display: inline-block;
+}
+
+.container-fluid {
+    overflow-y: auto;
+}
