@@ -1,13 +1,12 @@
 <?php
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
 
-class Reservation extends Model
+class Element extends Model
 {
     use HasFactory;
 
@@ -26,10 +25,7 @@ class Reservation extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'user_id',
-        'start_date',
-        'end_date',
-        'element_id',
+        'name',
     ];
 
     /**
@@ -53,12 +49,12 @@ class Reservation extends Model
     }
 
     /**
-     * Relation: Reservation is connected to one reserved element.
+     * Relation: Reserved element has many reservations.
      *
-     * @return BelongsTo
+     * @return HasMany
      */
-    public function reservedElement(): BelongsTo
+    public function reservations(): HasMany
     {
-        return $this->belongsTo(ReservedElement::class);
+        return $this->hasMany(Reservation::class);
     }
 }

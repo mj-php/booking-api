@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
 
-class Reservation extends Model
+class Vacancy extends Model
 {
     use HasFactory;
 
@@ -26,9 +26,8 @@ class Reservation extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'user_id',
-        'start_date',
-        'end_date',
+        'date',
+        'number',
         'element_id',
     ];
 
