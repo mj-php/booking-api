@@ -37,8 +37,6 @@ class VacancySeeder extends Seeder
                 $vacancy->number = $vacancyNumber;
                 $vacancy->save();
             }
-
         }
-
     }
 }
