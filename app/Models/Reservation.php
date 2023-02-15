@@ -11,6 +11,8 @@ class Reservation extends Model
 {
     use HasFactory;
 
+    protected $table = 'reservations';
+
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -59,6 +61,6 @@ class Reservation extends Model
      */
     public function reservedElement(): BelongsTo
     {
-        return $this->belongsTo(ReservedElement::class);
+        return $this->belongsTo(Element::class);
     }
 }

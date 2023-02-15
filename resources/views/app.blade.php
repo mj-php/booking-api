@@ -6,7 +6,8 @@
         content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Booking API - @yield('title')</title>
-    @vite(['resources/sass/app.scss','resources/css/app.css', 'resources/js/app.js'])
+    <link rel="stylesheet" href="{{ mix('css/app.css') }}">
+    <script src="{{mix('js/app.js')}}"></script>
     @stack('scripts')
 </head>
 

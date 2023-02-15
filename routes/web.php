@@ -18,6 +18,6 @@ Route::get('/', function () {
     return view('welcome');
 })->name('welcome');
 
-Route::get('/reservations', [ReservationController::class, 'index'])->name('reservations.index');
+Route::get('reservations/list', [ReservationController::class, 'list'])->name('reservations.list');
 
-Route::get('/reservations/list', [ReservationController::class, 'list'])->name('reservations.list');
+Route::resource('reservations', ReservationController::class);
