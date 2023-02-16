@@ -31,7 +31,7 @@ class ReservationController extends Controller
     public function list(Request $request): JsonResponse
     {
         if ($request->ajax()) {
-            $reservations = Reservation::all();
+            $reservations = Reservation::with('element')->get();
 
             return response()->json([
                 'data' => $reservations

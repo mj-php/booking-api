@@ -30,6 +30,7 @@
             processing: true,
             "iDisplayLength": 25,
             columns: [
+                {data: 'element.name', name: 'element_name', class: 'dt-center', title: 'Local'},
                 {data: 'vacancies', name: 'vacancies', class: 'dt-center', title: 'Vacancies'},
                 {data: 'start_date', name: 'start_date', class: 'dt-center', title: 'Start Date'},
                 {data: 'end_date', name: 'end_date', class: 'dt-center', title: 'End Date'},
@@ -60,7 +61,7 @@
                 <button type="submit" class="bg-transparent border-0"><i class="fa fa-trash fa-1x cursor-pointer"></i></button>
                 </form>`;
 
-                $(row).find('td:nth-child(6)').html(actionsHtml);
+                $(row).find('td:nth-child(7)').html(actionsHtml);
             }
         });
 

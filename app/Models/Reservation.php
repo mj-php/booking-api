@@ -11,17 +11,6 @@ class Reservation extends Model
 {
     use HasFactory;
 
-    protected $table = 'reservations';
-
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array <int, string>
-     */
-    protected $hidden = [
-        'id',
-    ];
-
     /**
      * The attributes that are mass assignable.
      *
@@ -60,8 +49,8 @@ class Reservation extends Model
      *
      * @return BelongsTo
      */
-    public function reservedElement(): BelongsTo
+    public function element(): BelongsTo
     {
-        return $this->belongsTo(Element::class);
+        return $this->belongsTo(Element::class,'element_id');
     }
 }

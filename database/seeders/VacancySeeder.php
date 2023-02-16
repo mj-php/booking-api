@@ -27,7 +27,7 @@ class VacancySeeder extends Seeder
         foreach ($elements as $element) {
             $dateStart = Carbon::now();
 
-            $randomDays = $this->faker->numberBetween(14,90);
+            $randomDays = $this->faker->numberBetween(14,45);
             $vacancyNumber = $this->faker->numberBetween(1,5);
 
             for ($iterator = 0; $iterator < $randomDays; $iterator++) {

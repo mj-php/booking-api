@@ -3,21 +3,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Carbon;
 
 class Element extends Model
 {
     use HasFactory;
-
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array <int, string>
-     */
-    protected $hidden = [
-        'id',
-    ];
 
     /**
      * The attributes that are mass assignable.
@@ -49,12 +40,12 @@ class Element extends Model
     }
 
     /**
-     * Relation: Reserved element has many reservations.
+     * Relation: Reserved element has one reservation.
      *
-     * @return HasMany
+     * @return HasOne
      */
-    public function reservations(): HasMany
+    public function reservation(): HasOne
     {
-        return $this->hasMany(Reservation::class);
+        return $this->hasOne(Reservation::class);
     }
 }

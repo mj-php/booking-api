@@ -26,6 +26,7 @@ class StoreReservationRequest extends FormRequest
         return [
             'vacancies' => 'required',
             'reservation_date' => 'required',
+            'element_id' => 'required',
         ];
     }
 }
