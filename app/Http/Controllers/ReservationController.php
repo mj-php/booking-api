@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreReservationRequest;
 use App\Models\Reservation;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 
 class ReservationController extends Controller
 {
@@ -44,24 +44,29 @@ class ReservationController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param StoreReservationRequest $request
-     * @return Response
+     * @return JsonResponse
      */
-    public function store(StoreReservationRequest $request)
+    public function store(StoreReservationRequest $request): JsonResponse
     {
-        //
+        $validated = $request->validated();
+
+        $dates = explode(' - ', $validated['reservation_date']);
+
+        $validated['start_date'] = $dates[0];
+        $validated['end_date'] = $dates[1];
+
+        unset($validated['reservation_date']);
+
+        $reservation = Reservation::make($validated);
+
+        $reservation->save();
+
+        return response()->json([
+            'message' => 'Reservation created successfully!'
+        ], 201);
     }
 
     /**

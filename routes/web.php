@@ -20,4 +20,4 @@ Route::get('/', function () {
 
 Route::get('reservations/list', [ReservationController::class, 'list'])->name('reservations.list');
 
-Route::resource('reservations', ReservationController::class);
+Route::resource('reservations', ReservationController::class)->except(['create','edit','show']);
