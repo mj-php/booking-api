@@ -21,6 +21,7 @@ class Reservation extends Model
         'vacancies',
         'start_date',
         'end_date',
+        'days',
         'element_id',
     ];
 

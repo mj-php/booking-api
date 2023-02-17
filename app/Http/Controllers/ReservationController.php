@@ -52,12 +52,7 @@ class ReservationController extends Controller
     {
         $validated = $request->validated();
 
-        $dates = explode(' - ', $validated['reservation_date']);
-
-        $validated['start_date'] = $dates[0];
-        $validated['end_date'] = $dates[1];
-
-        unset($validated['reservation_date']);
+        $this->prepareDateRange($validated);
 
         $reservation = Reservation::make($validated);
 
@@ -79,6 +74,8 @@ class ReservationController extends Controller
     {
         $reservation = Reservation::findOrFail($reservationId);
         $validated = $request->validated();
+
+        $this->prepareDateRange($validated);
 
         $reservation->fill($validated);
         $reservation->save();
@@ -102,6 +99,22 @@ class ReservationController extends Controller
         return response()->json([
             'message' => 'Reservation removed correctly.'
         ]);
+    }
+
+    /**
+     * Removes date range string, creates start_date and end_date
+     *
+     * @param array $validated
+     * @return void
+     */
+    private function prepareDateRange(array &$validated): void
+    {
+        $dates = explode(' - ', $validated['reservation_date_range']);
+
+        $validated['start_date'] = $dates[0];
+        $validated['end_date'] = $dates[1];
+
+        unset($validated['reservation_date_range']);
     }
 }
 

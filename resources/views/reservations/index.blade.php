@@ -2,11 +2,11 @@
 @section('title', 'Reservations')
 @section('content')
     <div class="row mb-2">
-        <div class="col-lg-6 col-md-12 d-flex align-items-end flex-column p-0">
+        <div class="col-lg-9 col-md-12 d-flex align-items-end flex-column p-0">
             <div class="float-end">
                 <div class="btn-group">
                     <button type="button" class="btn btn-secondary fs-8" data-bs-toggle="modal"
-                        data-bs-target="#addReservationModal">
+                        data-bs-target="#add_reservation_modal">
                         <i class="fa fa-plus mx-2"></i>Add Reservation
                     </button>
                 </div>
@@ -14,7 +14,7 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-lg-6 col-md-12">
+        <div class="col-lg-9 col-md-12">
             <table id="reservations" class="table stripe table-fixed table-striped row-border table-bordered w-100">
             </table>
         </div>
@@ -34,6 +34,7 @@
                 {data: 'vacancies', name: 'vacancies', class: 'dt-center', title: 'Vacancies'},
                 {data: 'start_date', name: 'start_date', class: 'dt-center', title: 'Start Date'},
                 {data: 'end_date', name: 'end_date', class: 'dt-center', title: 'End Date'},
+                {data: 'days', name: 'days', class: 'dt-center', title: 'Days'},
                 {data: 'created_at', name: 'created_at', class: 'dt-center', title: 'Created At'},
                 {data: 'updated_at', name: 'updated_at', class: 'dt-center', title: 'Updated At'},
                 {
@@ -60,12 +61,12 @@
                 <button type="submit" class="bg-transparent border-0"><i class="fa fa-trash fa-1x cursor-pointer"></i></button>
                 </form>`;
 
-                $(row).find('td:nth-child(7)').html(actionsHtml);
+                $(row).find('td:last-child').html(actionsHtml);
             }
         });
 
-        $(document).on('shown.bs.modal', '#addReservationModal', function () {
-            $("#add_reservation_date").daterangepicker({
+        $(document).on('shown.bs.modal', '#add_reservation_modal', function () {
+            $("#add_reservation_date_range").daterangepicker({
                     locale: {
                         format: 'YYYY-MM-DD'
                     }
@@ -73,8 +74,41 @@
             );
         });
 
-        $(document).on('click', '#addReservation', function () {
-            let form = $("#addReservationForm");
+        $('#add_reservation_date_range').on('apply.daterangepicker',function(ev, picker) {
+            let startDate = picker.startDate.format('YYYY-MM-DD');
+            let endDate = picker.endDate.format('YYYY-MM-DD');
+            let startDateObject = new Date(startDate);
+            let endDateObject = new Date(endDate);
+
+            let days = (endDateObject- startDateObject) / (1000 * 60 * 60 * 24);
+            days = Math.round(days) + 1;
+
+            $("#add_days").val(days);
+        });
+
+        $(document).on('shown.bs.modal', '#edit_reservation_modal', function () {
+            $("#edit_reservation_date_range").daterangepicker({
+                    locale: {
+                        format: 'YYYY-MM-DD'
+                    }
+                }
+            );
+        });
+
+        $('#edit_reservation_date_range').on('apply.daterangepicker',function(ev, picker) {
+            let startDate = picker.startDate.format('YYYY-MM-DD');
+            let endDate = picker.endDate.format('YYYY-MM-DD');
+            let startDateObject = new Date(startDate);
+            let endDateObject = new Date(endDate);
+
+            let days = (endDateObject- startDateObject) / (1000 * 60 * 60 * 24);
+            days = Math.round(days) + 1;
+
+            $("#edit_days").val(days);
+        });
+
+        $(document).on('click', '#add_reservation', function () {
+            let form = $("#add_reservation_form");
             let url = form.prop('action');
             let method = form.attr('method');
             let formData = convertFormToJSON(form);
@@ -94,8 +128,8 @@
                         backdrop: false
                     }).then(function () {
                         reservationsTable.ajax.reload();
-                        $("#addReservationModal").modal('hide');
-                        $('#addReservationForm').trigger("reset");
+                        $("#add_reservation_modal").modal('hide');
+                        $('#add_reservation_form').trigger("reset");
                     });
                 },
                 error: function () {
@@ -110,8 +144,8 @@
             });
         });
 
-        $(document).on('click', '#editReservation', function () {
-            let form = $("#editReservationForm");
+        $(document).on('click', '#edit_reservation', function () {
+            let form = $("#edit_reservation_form");
             let url = form.prop('action');
             let method = form.attr('method');
             let formData = convertFormToJSON(form);
@@ -151,17 +185,17 @@
             let reservationId = data.id;
             let reservationDate = data.start_date + ' - ' + data.end_date;
 
-            $('#editReservationForm input[name="reservation_id"]').val(reservationId);
-            $('#editReservationForm input[name="vacancies"]').val(data.vacancies);
-            $('#editReservationForm input[name="reservation_date"]').val(reservationDate);
+            $('#edit_reservation_form input[name="reservation_id"]').val(reservationId);
+            $('#edit_reservation_form input[name="vacancies"]').val(data.vacancies);
+            $('#edit_reservation_form input[name="reservation_date_range"]').val(reservationDate);
 
             let reservationUpdateRoute = '{{ route('reservations.update', ":id") }}';
 
             reservationUpdateRoute = reservationUpdateRoute.replace(':id', reservationId);
 
-            $("#editReservationForm").prop('action', reservationUpdateRoute);
-            $("#editReservationForm").attr('method', 'put');
-            $("#editReservationModal").modal('show');
+            $("#edit_reservation_form").prop('action', reservationUpdateRoute);
+            $("#edit_reservation_form").attr('method', 'put');
+            $("#edit_reservation_modal").modal('show');
 
         });
 

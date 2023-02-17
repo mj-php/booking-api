@@ -25,7 +25,8 @@ class StoreReservationRequest extends FormRequest
     {
         return [
             'vacancies' => 'required',
-            'reservation_date' => 'required',
+            'reservation_date_range' => 'required',
+            'days' => 'required',
             'element_id' => 'required',
         ];
     }

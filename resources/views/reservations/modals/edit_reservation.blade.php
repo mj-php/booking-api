@@ -1,4 +1,4 @@
-<div class="modal fade" id="editReservationModal" tabindex="-1" role="dialog" aria-labelledby="editReservationLabel"
+<div class="modal fade" id="edit_reservation_modal" tabindex="-1" role="dialog" aria-labelledby="edit_reservationLabel"
     aria-hidden="true">
     <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content mw-300">
@@ -7,7 +7,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body p-4">
-                <form id="editReservationForm" autocomplete="off">
+                <form id="edit_reservation_form" autocomplete="off">
                     @method('POST')
                     @csrf
                     <div class="row">
@@ -19,8 +19,8 @@
                         </div>
                         <div class="col-6">
                             <div class="form-group">
-                                <label for="reservation_date">Reservation Date:</label>
-                                <input class="form-control" name="reservation_date" id="edit_reservation_date">
+                                <label for="reservation_date_range">Reservation Date:</label>
+                                <input class="form-control" name="reservation_date_range" id="edit_reservation_date_range">
                             </div>
                         </div>
                         <div class="col-6">
@@ -29,11 +29,17 @@
                                 <input type="number" class="form-control" name="vacancies" id="edit_vacancies">
                             </div>
                         </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="days">Reservation Days:</label>
+                                <input type="number" class="form-control" name="days" id="edit_days">
+                            </div>
+                        </div>
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
-                <button id="editReservation" type="button" class="btn btn-secondary">Save changes</button>
+                <button id="edit_reservation" type="button" class="btn btn-secondary">Save changes</button>
             </div>
         </div>
     </div>
