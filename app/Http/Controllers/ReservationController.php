@@ -3,12 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreReservationRequest;
+use App\Http\Requests\UpdateReservationRequest;
 use App\Models\Reservation;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Auth;
 
 class ReservationController extends Controller
 {
@@ -70,48 +69,39 @@ class ReservationController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param Reservation $Reservation
-     * @return Response
-     */
-    public function show(Reservation $Reservation)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param Reservation $Reservation
-     * @return Response
-     */
-    public function edit(Reservation $Reservation)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param UpdateReservationRequest $request
-     * @param Reservation $Reservation
-     * @return Response
+     * @param string $reservationId
+     * @return JsonResponse
      */
-    public function update(UpdateReservationRequest $request, Reservation $Reservation)
+    public function update(UpdateReservationRequest $request, string $reservationId): JsonResponse
     {
-        //
+        $reservation = Reservation::findOrFail($reservationId);
+        $validated = $request->validated();
+
+        $reservation->fill($validated);
+        $reservation->save();
+
+        return response()->json(
+            ['success' => true, 'message' => 'Reservation updated successfully!']
+        );
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param Reservation $Reservation
-     * @return Response
+     * @param string $reservationId
+     * @return JsonResponse
      */
-    public function destroy(Reservation $Reservation)
+    public function destroy(string $reservationId): JsonResponse
     {
-        //
+        $reservation = Reservation::findOrFail($reservationId);
+        $reservation->delete();
+
+        return response()->json([
+            'message' => 'Reservation removed correctly.'
+        ]);
     }
 }
 

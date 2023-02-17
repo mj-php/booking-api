@@ -46,16 +46,15 @@
                 },
             ],
             createdRow: function (row, data, dataIndex) {
-                console.log(data);
-                let rowId = data.encrypted_id;
+                let rowId = data.id;
                 let deleteRowRoute = '{{ route('reservations.destroy', ":id") }}';
 
-                $(row).attr('data-encrypted_id', rowId);
+                $(row).attr('data-reservation_id', rowId);
 
                 deleteRowRoute = deleteRowRoute.replace(':id', rowId);
 
-                let actionsHtml = `<i class="fa fa-pen fa-1x cursor-pointer edit-product"></i>
-                        <form class="d-inline remove-product" action="` + deleteRowRoute + `" method="POST">
+                let actionsHtml = `<i class="fa fa-pen fa-1x cursor-pointer edit-reservation"></i>
+                        <form class="d-inline remove-reservation" action="` + deleteRowRoute + `" method="POST">
                         @csrf
                 @method('DELETE')
                 <button type="submit" class="bg-transparent border-0"><i class="fa fa-trash fa-1x cursor-pointer"></i></button>
@@ -149,12 +148,66 @@
         $(document).on('click', '.edit-reservation', function (event) {
             let row = $(this).parent();
             let data = reservationsTable.row(row).data();
+            let reservationId = data.id;
+            let reservationDate = data.start_date + ' - ' + data.end_date;
 
-            $('#editReservationForm input[name="encrypted_reservation_id"]').val(encrypted_reservation_id);
-            $('#editReservationForm input[name="reservation_number"]').val(data.reservation_number);
-            $('#editReservationForm input[name="reservation_date"]').val(data.reservation_date);
-            $('#editReservationForm select[name="stocktake_id"]').val(data.encrypted_stocktake_id);
+            $('#editReservationForm input[name="reservation_id"]').val(reservationId);
+            $('#editReservationForm input[name="vacancies"]').val(data.vacancies);
+            $('#editReservationForm input[name="reservation_date"]').val(reservationDate);
 
+            let reservationUpdateRoute = '{{ route('reservations.update', ":id") }}';
+
+            reservationUpdateRoute = reservationUpdateRoute.replace(':id', reservationId);
+
+            $("#editReservationForm").prop('action', reservationUpdateRoute);
+            $("#editReservationForm").attr('method', 'put');
+            $("#editReservationModal").modal('show');
+
+        });
+
+        $(document).on('submit', '.remove-reservation', function (event) {
+            event.preventDefault();
+
+            Swal.fire({
+                title: 'Are you sure?',
+                text: 'You would not be able to revert this!',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    let form = $(this);
+                    let url = form.prop('action');
+                    let formData = $(form).serialize();
+
+                    $.ajax({
+                        type: "POST",
+                        dataType: 'JSON',
+                        url: url,
+                        data: formData,
+                        success: function (data, textStatus, jqXHR) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Success!',
+                                text: data.message,
+                                timer: 2000,
+                                backdrop: false
+                            }).then(function () {
+                                reservationsTable.ajax.reload(null, false);
+                            });
+                        },
+                        error: function () {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Oops...',
+                                text: 'Something went wrong!',
+                                timer: 3000,
+                                backdrop: false
+                            });
+                        }
+                    });
+                }
+            });
         });
     </script>
 @endpush

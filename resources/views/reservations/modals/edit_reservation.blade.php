@@ -13,14 +13,20 @@
                     <div class="row">
                         <div class="col-6">
                             <div class="form-group">
-                                <label for="reservation_number">Vacancies Number:</label>
-                                <input type="number" class="form-control" name="reservation_vacancies" id="edit_vacancies">
+                                <label for="element">Place:</label>
+                                @include('partials.elements_dropdown',['dropdownId' => 'element_id'])
                             </div>
                         </div>
                         <div class="col-6">
                             <div class="form-group">
                                 <label for="reservation_date">Reservation Date:</label>
                                 <input class="form-control" name="reservation_date" id="edit_reservation_date">
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="reservation_number">Vacancies:</label>
+                                <input type="number" class="form-control" name="vacancies" id="edit_vacancies">
                             </div>
                         </div>
                     </div>

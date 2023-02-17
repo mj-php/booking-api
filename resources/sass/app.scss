@@ -35,5 +35,8 @@ $utilities: map-merge(
 @import "node_modules/@fortawesome/fontawesome-free/scss/regular.scss";
 @import "node_modules/@fortawesome/fontawesome-free/scss/solid.scss";
 
-// DateRangePciker
+// DateRangePicker
 @import "daterangepicker";
+
+// SwalAlert
+@import 'sweetalert2/dist/sweetalert2.min.css';
