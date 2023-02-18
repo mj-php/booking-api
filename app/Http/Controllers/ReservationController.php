@@ -144,7 +144,7 @@ class ReservationController extends Controller
             $vacancy = $this->getVacancyOnDate($vacanciesArray, $date);
             $vacancyNumber = $vacancy['number'] ?? 0;
 
-            if (!$vacancy || $vacancyNumber < $requestedVacancies) {
+            if ($vacancyNumber < $requestedVacancies) {
                 $vacanciesErrors[] = [
                     'date' => $date,
                     'requested' => $requestedVacancies,
