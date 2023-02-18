@@ -6,6 +6,7 @@ use App\Http\Requests\StoreReservationRequest;
 use App\Http\Requests\UpdateReservationRequest;
 use App\Models\Reservation;
 use App\Models\Vacancy;
+use Carbon\Carbon;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -98,6 +99,12 @@ class ReservationController extends Controller
     public function destroy(string $reservationId): JsonResponse
     {
         $reservation = Reservation::findOrFail($reservationId);
+
+        $reservationArray = $reservation->toArray();
+        $reservationArray['vacancies'] *= -1;
+
+        $this->updateVacancies($reservationArray);
+
         $reservation->delete();
 
         return response()->json([
@@ -109,18 +116,16 @@ class ReservationController extends Controller
      * Checks whether reservation|s can be make in given period
      *
      * @param $validated
-     * @return mixed
+     * @return array|bool
      */
-    private function checkVacancies($validated): mixed
+    private function checkVacancies(array $validated): array|bool
     {
         $elementId = $validated['element_id'];
 
         $startDate = $validated['start_date'];
-
         $endDate = $validated['end_date'];
 
         $requestedVacancies = $validated['vacancies'];
-
         $requestedDays = $validated['days'];
 
         $vacancies = Vacancy::where([
@@ -133,18 +138,23 @@ class ReservationController extends Controller
         $vacanciesArray = $vacancies->toArray();
         $vacanciesErrors = [];
 
-        foreach ($vacanciesArray as $vacancy) {
-            if ($vacancy['number'] < $requestedVacancies) {
+        $consecutiveDatesArray = $this->getConsecutiveDates($startDate, $requestedDays);
+
+        foreach ($consecutiveDatesArray as $date) {
+            $vacancy = $this->getVacancyOnDate($vacanciesArray, $date);
+            $vacancyNumber = $vacancy['number'] ?? 0;
+
+            if (!$vacancy || $vacancyNumber < $requestedVacancies) {
                 $vacanciesErrors[] = [
-                    'date' => $vacancy['date'],
+                    'date' => $date,
                     'requested' => $requestedVacancies,
-                    'available' => $vacancy['number']
+                    'available' => $vacancyNumber
                 ];
             }
         }
 
         if ($vacanciesErrors) {
-            return ['error' =>
+            return ['errors' =>
                 ['message' => 'Not enough vacancies',
                     'data' => $vacanciesErrors
                 ]
@@ -157,40 +167,46 @@ class ReservationController extends Controller
     /**
      * Checks whether reservation|s can be make in given period
      *
-     * @param $validated
+     * @param array $elementArray
      * @return void
      */
-    private function updateVacancies($validated): void
+    private function updateVacancies(array $elementArray): void
     {
-        $elementId = $validated['element_id'];
+        $elementId = $elementArray['element_id'];
+        $startDate = $elementArray['start_date'];
+        $endDate = $elementArray['end_date'];
+        $requestedVacancies = $elementArray['vacancies'];
 
-        $startDate = $validated['start_date'];
-
-        $endDate = $validated['end_date'];
-
-        $requestedVacancies = $validated['vacancies'];
-
-        //dd($elementId, $startDate, $endDate);
-
-        $vacancies = Vacancy::where([
+        Vacancy::where([
                 ['element_id', '=', $elementId],
                 ['date', '>=', $startDate],
                 ['date', '<=', $endDate],
             ]
-        )->get();
+        )->decrement('number', $requestedVacancies);
+    }
 
-        $vacanciesArray = $vacancies->toArray();
-        $vacanciesErrors = [];
-
-        foreach ($vacanciesArray as $vacancy) {
-            if ($vacancy['number'] < $requestedVacancies) {
-                $vacanciesErrors[] = [
-                    'date' => $vacancy['date'],
-                    'requested' => $requestedVacancies,
-                    'available' => $vacancy['number']
-                ];
+    private function getVacancyOnDate(array $vacancies, string $date): mixed
+    {
+        foreach ($vacancies as $vacancy) {
+            if (isset($vacancy['date']) && $vacancy['date'] == $date) {
+                return $vacancy;
             }
         }
+
+        return false;
+    }
+
+    private function getConsecutiveDates(string $startDate, int $requestedDays): array
+    {
+        $consecutiveDatesArray = [];
+        $carbonDate = Carbon::createFromFormat('Y-m-d', $startDate);
+
+        for ($iterator = 0; $iterator < $requestedDays; $iterator++) {
+            $consecutiveDatesArray[] = $carbonDate->format('Y-m-d');
+            $carbonDate->addDay();
+        }
+
+        return $consecutiveDatesArray;
     }
 }
 

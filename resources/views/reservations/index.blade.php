@@ -119,17 +119,24 @@
                 error: function (data) {
                     let html = `<div>`;
 
-                    $.each(data.responseJSON.error.data, function (i, el) {
-                        html += `date: ` + el.date +
-                            `, available: <span style="color:green;font-size:bold">` + el.available +
-                            `</span>, requested: <span style="color:red;font-size:bold">` + el.requested + "</span><br>";
-                    });
+                    if (data.responseJSON.errors.data) {
+
+                        $.each(data.responseJSON.errors.data, function (i, el) {
+                            html += `date: ` + el.date +
+                                `, available: <span style="color:green;font-size:bold">` + el.available +
+                                `</span>, requested: <span style="color:red;font-size:bold">` + el.requested + "</span><br>";
+                        });
+
+
+                    } else {
+                        html = data.responseJSON.message;
+                    }
 
                     html += `</div>`;
 
                     Swal.fire({
                         icon: 'error',
-                        title: data.responseJSON.error.message,
+                        title: 'Error!',
                         html: html,
                         backdrop: false
                     });
