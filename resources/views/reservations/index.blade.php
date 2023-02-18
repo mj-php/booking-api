@@ -66,42 +66,22 @@
         });
 
         $(document).on('shown.bs.modal', '#add_reservation_modal', function () {
-            $("#add_reservation_date_range").daterangepicker({
-                    locale: {
-                        format: 'YYYY-MM-DD'
-                    }
-                }
-            );
-        });
-
-        $('#add_reservation_date_range').on('apply.daterangepicker',function(ev, picker) {
-            let startDate = picker.startDate.format('YYYY-MM-DD');
-            let endDate = picker.endDate.format('YYYY-MM-DD');
-            let startDateObject = new Date(startDate);
-            let endDateObject = new Date(endDate);
-
-            let days = (endDateObject- startDateObject) / (1000 * 60 * 60 * 24);
-            days = Math.round(days) + 1;
-
-            $("#add_days").val(days);
+            $("#add_end_date").datepicker(datepickerOptions);
+            $("#add_start_date").datepicker(datepickerOptions);
         });
 
         $(document).on('shown.bs.modal', '#edit_reservation_modal', function () {
-            $("#edit_reservation_date_range").daterangepicker({
-                    locale: {
-                        format: 'YYYY-MM-DD'
-                    }
-                }
-            );
+            $("#edit_start_date").datepicker(datepickerOptions);
+            $("#edit_end_date").datepicker(datepickerOptions);
         });
 
-        $('#edit_reservation_date_range').on('apply.daterangepicker',function(ev, picker) {
+        $('#edit_reservation_date_range').on('apply.daterangepicker', function (ev, picker) {
             let startDate = picker.startDate.format('YYYY-MM-DD');
             let endDate = picker.endDate.format('YYYY-MM-DD');
             let startDateObject = new Date(startDate);
             let endDateObject = new Date(endDate);
 
-            let days = (endDateObject- startDateObject) / (1000 * 60 * 60 * 24);
+            let days = (endDateObject - startDateObject) / (1000 * 60 * 60 * 24);
             days = Math.round(days) + 1;
 
             $("#edit_days").val(days);
@@ -183,11 +163,12 @@
             let row = $(this).parent();
             let data = reservationsTable.row(row).data();
             let reservationId = data.id;
-            let reservationDate = data.start_date + ' - ' + data.end_date;
 
             $('#edit_reservation_form input[name="reservation_id"]').val(reservationId);
             $('#edit_reservation_form input[name="vacancies"]').val(data.vacancies);
-            $('#edit_reservation_form input[name="reservation_date_range"]').val(reservationDate);
+            $('#edit_reservation_form input[name="start_date"]').val(data.start_date);
+            $('#edit_reservation_form input[name="end_date"]').val(data.end_date);
+            $('#edit_reservation_form input[name="days"]').val(data.days);
 
             let reservationUpdateRoute = '{{ route('reservations.update', ":id") }}';
 

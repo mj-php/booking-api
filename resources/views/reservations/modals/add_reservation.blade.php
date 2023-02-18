@@ -17,10 +17,16 @@
                                 @include('partials.elements_dropdown',['dropdownId' => 'element_id'])
                             </div>
                         </div>
-                        <div class="col-6">
+                        <div class="col-3">
                             <div class="form-group">
-                                <label for="reservation_date_range">Reservation Date:</label>
-                                <input class="form-control" name="reservation_date_range" id="add_reservation_date_range">
+                                <label for="start_date">Start Date:</label>
+                                <input class="form-control" name="start_date" id="add_start_date">
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="form-group">
+                                <label for="end_date">End Date:</label>
+                                <input class="form-control" name="end_date" id="add_end_date">
                             </div>
                         </div>
                         <div class="col-6">

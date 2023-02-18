@@ -35,8 +35,8 @@ $utilities: map-merge(
 @import "node_modules/@fortawesome/fontawesome-free/scss/regular.scss";
 @import "node_modules/@fortawesome/fontawesome-free/scss/solid.scss";
 
-// DateRangePicker
-@import "daterangepicker";
+// jQuery UI
+@import '~jquery-ui/themes/base/all.css';
 
 // SwalAlert
 @import 'sweetalert2/dist/sweetalert2.min.css';
