@@ -87,8 +87,9 @@
             $("#edit_days").val(days);
         });
 
-        $(document).on('click', '#add_reservation', function () {
-            let form = $("#add_reservation_form");
+        $(document).on('click', '#add_reservation, #edit_reservation', function () {
+            let buttonId = this.id;
+            let form = $("#" + buttonId + '_form');
             let url = form.prop('action');
             let method = form.attr('method');
             let formData = convertFormToJSON(form);
@@ -108,50 +109,18 @@
                         backdrop: false
                     }).then(function () {
                         reservationsTable.ajax.reload();
-                        $("#add_reservation_modal").modal('hide');
-                        $('#add_reservation_form').trigger("reset");
+
+                        if (buttonId === 'add_reservation') {
+                            $("#add_reservation_modal").modal('hide');
+                            $('#add_reservation_form').trigger("reset");
+                        }
                     });
                 },
-                error: function () {
+                error: function (data) {
                     Swal.fire({
                         icon: 'error',
                         title: 'Oops...',
-                        text: 'Something went wrong!',
-                        timer: 3000,
-                        backdrop: false
-                    });
-                }
-            });
-        });
-
-        $(document).on('click', '#edit_reservation', function () {
-            let form = $("#edit_reservation_form");
-            let url = form.prop('action');
-            let method = form.attr('method');
-            let formData = convertFormToJSON(form);
-
-            $.ajax({
-                type: "POST",
-                dataType: 'JSON',
-                url: url,
-                method: method,
-                data: formData,
-                success: function (data, textStatus, jqXHR) {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Success!',
-                        text: data.message,
-                        timer: 2000,
-                        backdrop: false
-                    }).then(function () {
-                        reservationsTable.ajax.reload();
-                    });
-                },
-                error: function () {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Oops...',
-                        text: 'Something went wrong!',
+                        text: data.responseJSON.message,
                         timer: 3000,
                         backdrop: false
                     });
