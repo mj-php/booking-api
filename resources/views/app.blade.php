@@ -13,19 +13,19 @@
 
 <body>
 <main>
-
-    <div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-primary" style="width: 240px">
-        <div>
-            <div class="w-100 container">
-                <img class="img-responsive w-100" src="images/reservation.png"/>
+    @auth
+        <div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-primary" style="width: 240px">
+            <div>
+                <div class="w-100 container">
+                    <img class="img-responsive w-100" src="images/reservation.png"/>
+                </div>
+                <div class="app-name mb-1 m-2 text-center">Booking App</div>
             </div>
-            <div class="app-name mb-1 m-2 text-center">Booking App</div>
+            <hr>
+            @include('partials.menu')
         </div>
-        <hr>
-        @include('partials.menu')
-    </div>
-    <div class="b-example-divider"></div>
-
+        <div class="b-example-divider"></div>
+    @endauth
     <div class="p-5 w-100 scrollarea bg-main">
         <div class="container-fluid">
             @yield('content')

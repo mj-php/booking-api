@@ -1,42 +1,8 @@
+// Fonts
+@import url('https://fonts.bunny.net/css?family=Nunito');
+
 // Variables
 @import 'variables';
 
-// General Css
-@import '../css/app.css';
-
-// Bootstrap
-@import 'bootstrap/scss/functions';
-@import 'bootstrap/scss/variables';
-@import 'bootstrap/scss/mixins';
-
-// Maps
-@import 'maps';
-
-// Bootstrap Utilities
-@import "bootstrap/scss/bootstrap-utilities";
-
-//Generate utilities for Cursor
-$utilities: map-merge(
-        $utilities,
-        (
-            "cursor": (
-                property: cursor,
-                values: auto default pointer wait text move help not-allowed
-            ),
-        )
-);
-
 // Bootstrap
 @import 'bootstrap/scss/bootstrap';
-
-// Fontawesome
-@import "node_modules/@fortawesome/fontawesome-free/scss/fontawesome.scss";
-@import "node_modules/@fortawesome/fontawesome-free/scss/brands.scss";
-@import "node_modules/@fortawesome/fontawesome-free/scss/regular.scss";
-@import "node_modules/@fortawesome/fontawesome-free/scss/solid.scss";
-
-// jQuery UI
-@import '~jquery-ui/themes/base/all.css';
-
-// SwalAlert
-@import 'sweetalert2/dist/sweetalert2.min.css';

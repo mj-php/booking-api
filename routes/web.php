@@ -1,23 +1,22 @@
 <?php
 
+use App\Http\Controllers\CustomAuthController;
 use App\Http\Controllers\ReservationController;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
+Route::middleware('guest')->group(function () {
+    Route::get('/login', [CustomAuthController::class, 'index'])->name('login');
+    Route::post('/custom-login', [CustomAuthController::class, 'customLogin'])->name('login.custom');
+});
 
-Route::get('/', function () {
-    return view('welcome');
-})->name('welcome');
+Route::middleware('auth')->group(function () {
+    Route::get('/', function () {
+        return view('welcome');
+    })->name('welcome');
 
-Route::get('reservations/list', [ReservationController::class, 'list'])->name('reservations.list');
+    Route::get('/signout', [CustomAuthController::class, 'signOut'])->name('signout');
 
-Route::resource('reservations', ReservationController::class)->except(['create','edit','show']);
+    Route::get('reservations/list', [ReservationController::class, 'list'])->name('reservations.list');
+
+    Route::resource('reservations', ReservationController::class)->except(['create', 'edit', 'show']);
+});
