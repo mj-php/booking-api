@@ -117,11 +117,20 @@
                     });
                 },
                 error: function (data) {
+                    let html = `<div>`;
+
+                    $.each(data.responseJSON.error.data, function (i, el) {
+                        html += `date: ` + el.date +
+                            `, available: <span style="color:green;font-size:bold">` + el.available +
+                            `</span>, requested: <span style="color:red;font-size:bold">` + el.requested + "</span><br>";
+                    });
+
+                    html += `</div>`;
+
                     Swal.fire({
                         icon: 'error',
-                        title: 'Oops...',
-                        text: data.responseJSON.message,
-                        timer: 3000,
+                        title: data.responseJSON.error.message,
+                        html: html,
                         backdrop: false
                     });
                 }

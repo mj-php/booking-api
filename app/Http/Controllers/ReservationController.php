@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreReservationRequest;
 use App\Http\Requests\UpdateReservationRequest;
 use App\Models\Reservation;
+use App\Models\Vacancy;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -52,6 +53,14 @@ class ReservationController extends Controller
     {
         $validated = $request->validated();
 
+        $vacanciesErrors = $this->checkVacancies($validated);
+
+        if (is_array($vacanciesErrors)) {
+            return response()->json($vacanciesErrors, 400);
+        }
+
+        $this->updateVacancies($validated);
+
         $reservation = Reservation::make($validated);
         $reservation->save();
 
@@ -94,6 +103,94 @@ class ReservationController extends Controller
         return response()->json([
             'message' => 'Reservation removed correctly.'
         ]);
+    }
+
+    /**
+     * Checks whether reservation|s can be make in given period
+     *
+     * @param $validated
+     * @return mixed
+     */
+    private function checkVacancies($validated): mixed
+    {
+        $elementId = $validated['element_id'];
+
+        $startDate = $validated['start_date'];
+
+        $endDate = $validated['end_date'];
+
+        $requestedVacancies = $validated['vacancies'];
+
+        $requestedDays = $validated['days'];
+
+        $vacancies = Vacancy::where([
+                ['element_id', '=', $elementId],
+                ['date', '>=', $startDate],
+                ['date', '<=', $endDate],
+            ]
+        )->get();
+
+        $vacanciesArray = $vacancies->toArray();
+        $vacanciesErrors = [];
+
+        foreach ($vacanciesArray as $vacancy) {
+            if ($vacancy['number'] < $requestedVacancies) {
+                $vacanciesErrors[] = [
+                    'date' => $vacancy['date'],
+                    'requested' => $requestedVacancies,
+                    'available' => $vacancy['number']
+                ];
+            }
+        }
+
+        if ($vacanciesErrors) {
+            return ['error' =>
+                ['message' => 'Not enough vacancies',
+                    'data' => $vacanciesErrors
+                ]
+            ];
+        } else {
+            return true;
+        }
+    }
+
+    /**
+     * Checks whether reservation|s can be make in given period
+     *
+     * @param $validated
+     * @return void
+     */
+    private function updateVacancies($validated): void
+    {
+        $elementId = $validated['element_id'];
+
+        $startDate = $validated['start_date'];
+
+        $endDate = $validated['end_date'];
+
+        $requestedVacancies = $validated['vacancies'];
+
+        //dd($elementId, $startDate, $endDate);
+
+        $vacancies = Vacancy::where([
+                ['element_id', '=', $elementId],
+                ['date', '>=', $startDate],
+                ['date', '<=', $endDate],
+            ]
+        )->get();
+
+        $vacanciesArray = $vacancies->toArray();
+        $vacanciesErrors = [];
+
+        foreach ($vacanciesArray as $vacancy) {
+            if ($vacancy['number'] < $requestedVacancies) {
+                $vacanciesErrors[] = [
+                    'date' => $vacancy['date'],
+                    'requested' => $requestedVacancies,
+                    'available' => $vacancy['number']
+                ];
+            }
+        }
     }
 }
 
