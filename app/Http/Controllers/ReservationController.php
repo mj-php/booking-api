@@ -31,17 +31,11 @@ class ReservationController extends Controller
      */
     public function list(Request $request): JsonResponse
     {
-        if ($request->ajax()) {
-            $reservations = Reservation::with('element')->get();
+        $reservations = Reservation::with('element')->get();
 
-            return response()->json([
-                'data' => $reservations
-            ]);
-        } else {
-            return response()->json([
-                'message' => 'Request wrongly formatted'
-            ], 400);
-        }
+        return response()->json([
+            'data' => $reservations
+        ]);
     }
 
     /**

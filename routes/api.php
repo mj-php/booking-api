@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ApiTokenController;
+use App\Http\Controllers\ReservationController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,7 +19,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('getToken', [ApiTokenController::class, 'getToken'])->middleware('auth.basic');
 
 Route::middleware('jwt')->group(function () {
-    Route::get('yeah',function() {
-        return 'hee hee';
-    });
+    Route::get('reservations/list', [ReservationController::class, 'list']);
+
+    Route::resource('reservations', ReservationController::class)->except(['create', 'edit', 'show']);
 });
