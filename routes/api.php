@@ -1,6 +1,6 @@
 <?php
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\ApiTokenController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,6 +14,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+
+Route::get('getToken', [ApiTokenController::class, 'getToken'])->middleware('auth.basic');
+
+Route::middleware('jwt')->group(function () {
+    Route::get('yeah',function() {
+        return 'hee hee';
+    });
 });
