@@ -76,6 +76,10 @@ class ReservationController extends Controller
         $reservation = Reservation::findOrFail($reservationId);
         $validated = $request->validated();
 
+        /* todo could implement mechanism for checking limits for already existing reservation
+            like checking for available days minus days already in reservation etc, would take much
+            more time
+        */
         $reservation->fill($validated);
         $reservation->save();
 
