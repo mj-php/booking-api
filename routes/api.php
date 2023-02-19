@@ -21,5 +21,7 @@ Route::get('getToken', [ApiTokenController::class, 'getToken'])->middleware('aut
 Route::middleware('jwt')->group(function () {
     Route::get('reservations/list', [ReservationController::class, 'list']);
 
-    Route::resource('reservations', ReservationController::class)->except(['create', 'edit', 'show']);
+    Route::resource('reservations', ReservationController::class,[
+        'as' => 'api'
+    ])->except(['create', 'edit', 'show']);
 });
