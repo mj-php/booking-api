@@ -10,6 +10,7 @@ use Carbon\Carbon;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ReservationController extends Controller
 {
@@ -54,6 +55,10 @@ class ReservationController extends Controller
             return response()->json($vacanciesErrors, 400);
         }
 
+        if (empty($validated['user_id'])) {
+            $validated['user_id'] = Auth::user()->id;
+        }
+
         $this->updateVacancies($validated);
 
         $reservation = Reservation::make($validated);
@@ -75,6 +80,10 @@ class ReservationController extends Controller
     {
         $reservation = Reservation::findOrFail($reservationId);
         $validated = $request->validated();
+
+        if (empty($validated['user_id'])) {
+            $validated['user_id'] = Auth::user()->id;
+        }
 
         /* todo could implement mechanism for checking limits for already existing reservation
             like checking for available days minus days already in reservation etc, would take much
