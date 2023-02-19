@@ -14,7 +14,7 @@ class ElementFactory extends Factory
      *
      * @return array<string, mixed>
      */
-    public function definition()
+    public function definition(): array
     {
         $firstPartNames = ['Great','Cool','Happy','Nice'];
         $secondPartNames = ['Flat','Warehouse','Place'];
