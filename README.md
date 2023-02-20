@@ -5,6 +5,7 @@
 3. Run `cp .env.example .env`
 4. Run `docker compose build --pull --no-cache` to build fresh images
 5. Run `./vendor/bin/sail up -d` to run images
+6. Run `./vendor/bin/sail artisan migrate:fresh --seed` to run fresh migrations and seeders
 
 # Logging and Api
 
