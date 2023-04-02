@@ -20,7 +20,7 @@ class CustomAuthController extends Controller
     public function customLogin(Request $request): RedirectResponse
     {
         $request->validate([
-            'email' => 'required',
+            'email' => 'required|email',
             'password' => 'required',
         ]);
 

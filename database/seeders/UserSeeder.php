@@ -20,15 +20,15 @@ class UserSeeder extends Seeder
 
         DB::table('users')->insert([
             'name' => 'Michal Jankiewicz',
-            'email' => 'user',
+            'email' => 'user@mjtest.pl',
             'password' => Hash::make('michal14'),
             'updated_at' => $date,
             'created_at' => $date,
         ]);
 
         DB::table('users')->insert([
-            'name' => 'Majkel Jackson',
-            'email' => 'user2',
+            'name' => 'Michael Johnny',
+            'email' => 'user2@mjtest.pl',
             'password' => Hash::make('michal14'),
             'updated_at' => $date,
             'created_at' => $date,

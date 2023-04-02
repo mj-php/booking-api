@@ -119,15 +119,12 @@
                 error: function (data) {
                     let html = `<div>`;
 
-                    if (data.responseJSON.errors.data) {
-
-                        $.each(data.responseJSON.errors.data, function (i, el) {
+                    if (data.responseJSON.errors.data[0]) {
+                        $.each(data.responseJSON.errors.data[0], function (i, el) {
                             html += `date: ` + el.date +
                                 `, available: <span style="color:green;font-size:bold">` + el.available +
                                 `</span>, requested: <span style="color:red;font-size:bold">` + el.requested + "</span><br>";
                         });
-
-
                     } else {
                         html = data.responseJSON.message;
                     }

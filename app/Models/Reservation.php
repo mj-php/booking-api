@@ -25,25 +25,12 @@ class Reservation extends Model
         'element_id',
     ];
 
-    /**
-     * Reformat created at date.
-     *
-     * @return string
-     */
-    public function getCreatedAtAttribute($date): string
-    {
-        return Carbon::createFromFormat("Y-m-d\TH:i:s.u\Z", $date)->format('Y-m-d H:i:s');
-    }
-
-    /**
-     * Reformat updated at date.
-     *
-     * @return string
-     */
-    public function getUpdatedAtAttribute($date): string
-    {
-        return Carbon::createFromFormat("Y-m-d\TH:i:s.u\Z", $date)->format('Y-m-d H:i:s');
-    }
+    protected $casts = [
+        'created_at' => 'datetime:Y-d-m H:i:s',
+        'updated_at' => 'datetime:Y-d-m H:i:s',
+        'start_date' => 'date:Y-d-m',
+        'end_date' => 'date:Y-d-m',
+    ];
 
     /**
      * Relation: Reservation is connected to one reserved element.
@@ -52,6 +39,6 @@ class Reservation extends Model
      */
     public function element(): BelongsTo
     {
-        return $this->belongsTo(Element::class,'element_id');
+        return $this->belongsTo(Element::class, 'element_id');
     }
 }
