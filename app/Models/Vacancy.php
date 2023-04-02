@@ -31,25 +31,10 @@ class Vacancy extends Model
         'element_id',
     ];
 
-    /**
-     * Reformat created at date.
-     *
-     * @return string
-     */
-    public function getCreatedAtAttribute($date): string
-    {
-        return Carbon::createFromFormat("Y-m-d\TH:i:s.u\Z", $date)->format('Y-m-d H:i:s');
-    }
-
-    /**
-     * Reformat updated at date.
-     *
-     * @return string
-     */
-    public function getUpdatedAtAttribute($date): string
-    {
-        return Carbon::createFromFormat("Y-m-d\TH:i:s.u\Z", $date)->format('Y-m-d H:i:s');
-    }
+    protected $casts = [
+        'created_at' => 'datetime:Y-m-d H:i:s',
+        'updated_at' => 'datetime:Y-m-d H:i:s',
+    ];
 
     /**
      * Relation: Reservation is connected to one reserved element.
