@@ -83,6 +83,7 @@ class ReservationController extends Controller
             like checking for available days minus days already in reservation etc, would take much
             more time
         */
+
         $reservation->fill($validated);
         $reservation->save();
 
