@@ -119,7 +119,7 @@
                 error: function (data) {
                     let html = `<div>`;
 
-                    if (data.responseJSON.errors.data[0]) {
+                    if (data.responseJSON.errors.data && data.responseJSON.errors.data[0]) {
                         $.each(data.responseJSON.errors.data[0], function (i, el) {
                             html += `date: ` + el.date +
                                 `, available: <span style="color:green;font-size:bold">` + el.available +
