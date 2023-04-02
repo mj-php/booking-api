@@ -14,7 +14,9 @@ class ReservationRequest extends FormRequest
         $validator->after(function ($validator) {
             $vacanciesErrors = $this->checkVacancies($validator->validated());
 
-            $validator->errors()->add('data', $vacanciesErrors);
+            if ($vacanciesErrors) {
+                $validator->errors()->add('data', $vacanciesErrors);
+            }
         });
     }
 
@@ -56,7 +58,7 @@ class ReservationRequest extends FormRequest
         if ($vacanciesErrors) {
             return $vacanciesErrors;
         } else {
-            return true;
+            return false;
         }
     }
 
